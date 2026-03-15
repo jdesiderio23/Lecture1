@@ -37,6 +37,28 @@ class Prodotto:
         if value < 0:
             raise ValueError("Attenzione, il prezzo non può essere neagativo")
 
+    def __str__(self):
+        return f"{self.name} - disponibili {self.quantity} pezzi a {self.price} $"
+
+    def __repr__(self):
+        return f"Prodotto(name = {self.name}, price = {self.price}, quantity = {self.quantity}, supplier = {self.supplier})"
+
+    def __eq__(self, other: object) -> bool:
+
+        if not isinstance(other, Prodotto):
+            return NotImplemented
+        return (self.name == other.name
+        and self.price == other.price
+             and self.quantity == other.quantity
+             and self.supplier == other.supplier)
+
+    def __lt__(self, other:"Prodotto") -> bool:
+        return self.price < other.price
+
+class ProdottoScontato(Prodotto):
+    def __init__(self,name: str, price: float, quantity: int, supplier = None):
+
+
 myproduct1 = Prodotto("Laptop", 1200.0, 12, "ABC")
 
 print(f"Nome prodotto: {myproduct1.name} - prezzo: {myproduct1.price}")
@@ -55,6 +77,21 @@ print(f"Valore lordo di myproduct1:{myproduct1.valore_lordo()}")
 Prodotto.aliquota_iva = 0.24
 
 print(f"Valore lordo di myproduct1:{myproduct1.valore_lordo()}")
+
+print(myproduct1)
+
+p_a = Prodotto("Laptop", 1200.0, 12, "ABC")
+p_b = Prodotto("Mouse", 10, 14, "CDE")
+
+print("myproduct1 == p_a?", myproduct1 == p_a) #va a chiamare il metodo __eq__ appena implementato. Mi aspetto TRUE
+print("myproduct2 == p_b?", myproduct1 == p_b) #FALSE
+
+mylist = [p_a,p_b,myproduct1]
+mylist.sort()
+
+print("lista di prodotti ordinata")
+for p in mylist:
+    print(f"- {p}")
 
 # Scrivere una classe Cliente che abbia i campi
 # "nome", "email", "categoria" ("Gold", "Silver", "Bronze").
@@ -85,5 +122,5 @@ class Cliente:
 
 
 c1 = Cliente("Fulvio Bianchi", "fulvio@google.com", "Gold")
-c2 = Cliente("Carlo Masone","carlo.masone@polito.it","Platinum")
+# c2 = Cliente("Carlo Masone","carlo.masone@polito.it","Platinum")
 print(c1.descrizione())
