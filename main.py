@@ -55,9 +55,25 @@ class Prodotto:
     def __lt__(self, other:"Prodotto") -> bool:
         return self.price < other.price
 
-class ProdottoScontato(Prodotto):
-    def __init__(self,name: str, price: float, quantity: int, supplier = None):
+    def prezzo_finale(self) -> float:
+        return self.price*(1+self.aliquota_iva)
 
+class ProdottoScontato(Prodotto):
+    def __init__(self,name: str, price: float, quantity: int, supplier : str, sconto_percento: float):
+        #Prodotto.__init__()
+        super().__init__(name,price,quantity,supplier)
+        self.sconto_percento = sconto_percento
+
+    def prezzo_finale(self) -> float:
+        return self.valore_lordo()*(1-self.sconto_percento/100)
+
+class Servizio(Prodotto):
+    def __init__(self,name: str, tariffa_oraria: float, ore: int):
+        super().__init__(name = name, price = tariffa_oraria, quantity = 1, supplier = None)
+        self.ore = ore
+
+    def prezzo_finale(self) -> float:
+        return self.price * self.ore
 
 myproduct1 = Prodotto("Laptop", 1200.0, 12, "ABC")
 
@@ -93,6 +109,14 @@ print("lista di prodotti ordinata")
 for p in mylist:
     print(f"- {p}")
 
+my_product_scontato = ProdottoScontato(name = "Auricolari",price = 320, quantity = 1, supplier = "ABC", sconto_percento = 10)
+my_service = Servizio(name = "Consulenza", tariffa_oraria = 100, ore = 3)
+
+mylist.append(my_product_scontato)
+mylist.append(my_service)
+
+for elem in mylist:
+    print(elem.name, "->", elem.prezzo_finale())
 # Scrivere una classe Cliente che abbia i campi
 # "nome", "email", "categoria" ("Gold", "Silver", "Bronze").
 # Vorremmo che questa classe avesse un metodo che chiamiamo "descrizione"
