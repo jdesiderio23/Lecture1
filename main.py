@@ -115,8 +115,32 @@ my_service = Servizio(name = "Consulenza", tariffa_oraria = 100, ore = 3)
 mylist.append(my_product_scontato)
 mylist.append(my_service)
 
+mylist.sort(reverse=True)
+
 for elem in mylist:
     print(elem.name, "->", elem.prezzo_finale())
+
+print("-------------------------------------------------")
+# Definire una classe Abbonamento che abbia come attributi: "nome, prezzo mensile, mesi".
+# Abbonamento dovrà avere un metodo per calcolare il prezzo finale, ottenuto come prezzo_mensile*mesi.
+
+class Abbonamento:
+    def __init__(self, nome: str, prezzo_mensile: float, mesi: int):
+        self.nome = nome
+        self.prezzo_mensile = prezzo_mensile
+        self.mesi = mesi
+
+    def prezzo_finale(self) -> float:
+        return self.prezzo_mensile*self.mesi
+
+abb = Abbonamento("Software gestionale", 30.0, 24)
+
+mylist.append(abb)
+for elem in mylist:
+    print(elem.name, "->", elem.prezzo_mensile())
+
+
+
 # Scrivere una classe Cliente che abbia i campi
 # "nome", "email", "categoria" ("Gold", "Silver", "Bronze").
 # Vorremmo che questa classe avesse un metodo che chiamiamo "descrizione"
