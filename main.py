@@ -126,7 +126,7 @@ print("-------------------------------------------------")
 
 class Abbonamento:
     def __init__(self, nome: str, prezzo_mensile: float, mesi: int):
-        self.nome = nome
+        self.name = nome
         self.prezzo_mensile = prezzo_mensile
         self.mesi = mesi
 
@@ -137,7 +137,77 @@ abb = Abbonamento("Software gestionale", 30.0, 24)
 
 mylist.append(abb)
 for elem in mylist:
-    print(elem.name, "->", elem.prezzo_mensile())
+    print(elem.name, "->", elem.prezzo_finale())
+
+def calcola_totale(elementi):
+    tot = 0
+    for e in elementi:
+        tot += e.prezzo_finale()
+    return tot
+
+print(f"Il totale è: {calcola_totale(mylist)}")
+
+from typing import Protocol
+
+class HaPrezzoFinale(Protocol):
+    def prezzo_finale(self) -> float:
+        ...
+
+def calcola_totale(elementi: list[HaPrezzoFinale]) -> float:
+    return sum(e.prezzo_finale() for e in elementi)
+
+print(f"Il totale è: {calcola_totale(mylist)}")
+
+print("-------------------------------------------------")
+print("Sperimentiamo con Dataclass")
+
+from dataclasses import dataclass
+
+@dataclass
+class ProdottoRecord:
+    name: str
+    prezzo_unitario: float
+
+@dataclass
+class ClienteRecord:
+    name: str
+    email: str
+    categoria: str
+
+@dataclass
+class RigaOrdine:
+    prodotto: ProdottoRecord
+    quantita: int
+
+    def totale_riga(self):
+        return self.prodotto.prezzo_unitario * self.quantita
+
+@dataclass
+class Ordine:
+    righe: list[RigaOrdine]
+    cliente: ClienteRecord
+
+    def totale_netto(self):
+        return sum(r.totale_riga() for r in self.righe)
+
+    def totale_lordo(self, aliquota_iva):
+        return self.totale_netto() * (1+aliquota_iva)
+
+    def numero_righe(self):
+        return len(self.righe)
+
+cliente1 = ClienteRecord("Mario Rossi", "mariorossi@example.com","Gold")
+p1 = ProdottoRecord("Laptop",1200.0)
+p2 = ProdottoRecord("Mouse",20)
+
+ordine = Ordine([RigaOrdine(p1,2),RigaOrdine(p2,10)],cliente1)
+
+print(ordine)
+print("Numero di righe nell'ordine: ", ordine.numero_righe())
+print("Totale netto: ", ordine.totale_netto())
+print("Totale lordo (IVA 22%): ", ordine.totale_lordo())
+
+print("-------------------------------------------------")
 
 
 
