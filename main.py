@@ -196,16 +196,31 @@ class Ordine:
     def numero_righe(self):
         return len(self.righe)
 
+@dataclass
+class OrdineConSconto(Ordine):
+    sconto_percentuale: float
+
+    def totale_scontato(self):
+        self.totale_lordo()*(1-self.sconto_percentuale)
+
+    def totale_netto(self):
+        netto_base = super().totale_netto()
+        return netto_base*(1-self.sconto_percentuale)
+
 cliente1 = ClienteRecord("Mario Rossi", "mariorossi@example.com","Gold")
 p1 = ProdottoRecord("Laptop",1200.0)
 p2 = ProdottoRecord("Mouse",20)
 
 ordine = Ordine([RigaOrdine(p1,2),RigaOrdine(p2,10)],cliente1)
-
+ordine_scontato = OrdineConSconto([RigaOrdine(p1,2),RigaOrdine(p2,10)],cliente1, 0.1)
 print(ordine)
 print("Numero di righe nell'ordine: ", ordine.numero_righe())
 print("Totale netto: ", ordine.totale_netto())
-print("Totale lordo (IVA 22%): ", ordine.totale_lordo())
+print("Totale lordo (IVA 22%): ", ordine.totale_lordo(0.22))
+
+print(ordine_scontato)
+print("Totale netto sconto: ", ordine_scontato.totale_netto())
+print("Totale lordo scontato: ", ordine_scontato.totale_lordo(0.22))
 
 print("-------------------------------------------------")
 
