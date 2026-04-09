@@ -1,6 +1,9 @@
 import copy
+from collections import Counter
 
+from gestionale.core.clienti import ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
+from gestionale.vendite.ordini import Ordine
 
 p1 = ProdottoRecord("Laptop", 1200.0)
 p2 = ProdottoRecord("Mouse", 20.0)
@@ -107,8 +110,8 @@ s.add(ProdottoRecord("aaa", 20.0)) #aggiunge un elemento
 s.update([ProdottoRecord("aaa", 20.0), ProdottoRecord("bbb", 20.0)]) #aggiunge più elementi
 
 #togliere
-s.remove(elem) #rimuove un elemento. Raise Keyerror se non esiste
-s.discard(elem) #rimuove un elemento, senza "arrabbiarsi" se questo non esiste
+# s.remove(elem) #rimuove un elemento. Raise Keyerror se non esiste
+# s.discard(elem) #rimuove un elemento, senza "arrabbiarsi" se questo non esiste
 s.pop() #rimuove e restituisce un elemento
 s.clear()
 
@@ -123,3 +126,120 @@ s1.issuperset(s) # se gli elementi di s sono contenuti in s1
 s1.isdisjoint(s) # se gli elementi di s e quelli di s1 sono diversi
 
 #Dictionary
+catalogo = {
+    "LAP001": ProdottoRecord("Laptop", 1200),
+    "LAP002": ProdottoRecord("Laptop Pro", 2300.0),
+    "MAU001": ProdottoRecord("Mouse", 20.0),
+    "AUR001": ProdottoRecord("Auricolari", 250.0)
+}
+
+cod = "LAP002"
+prod = catalogo[cod]
+
+print(f"Il prodotto con codice {cod} è {prod}")
+
+# print(f"Cerco un altro oggetto: {catalogo["NonEsiste"]}")
+
+prod1 = catalogo.get("NonEsiste")
+
+if prod1 is None:
+    print("Prodotto non trovato")
+
+prod2 = catalogo.get("NonEsiste2", ProdottoRecord("Sconosciuto", 0))
+
+print(prod2)
+
+#ciclare su un dizionario
+keys = list(catalogo.keys())
+values = list(catalogo.values())
+for k in keys:
+    print(k)
+
+for v in values:
+    print(v)
+
+for key, val in catalogo.items():
+    print(f"Cod {key} è associata a: {val}")
+
+#rimuovere dal dizionario
+rimosso = catalogo.pop("LAP002")
+print(rimosso)
+
+#dict comprehension
+prezzi = {codice: prod.prezzo_unitario for codice,prod in catalogo.items()}
+
+#DA RICORDARE PER DICT
+# d[key] = v # scrivo sul dizionario
+# # v = d[key] # leggere -- restituisce key error se non esiste
+# v = d.get(key, default) # legge senza rischiare key error. Se non esiste rende il default
+# d.pop() # restituisce un valore e lo cancella dal dizionario
+# d.clear() # elimina tutto
+# d.keys() # mi restituisce tutte le chiavi definite nel dizionario
+# d.values() # mi restituisce tutti i valori salvati nel dizionario
+# d.items() # restituisce le coppie
+# key in d # condizione che verifica se key è presente nel dizionario
+
+"""Esercizio live
+Per ciascuno dei seguenti casi, decidere quale struttura usare:"""
+"""1) Memorizzare una lista di ordini che dovranno poi essere processati in ordine di arrivo"""
+# Lista
+
+ordini_da_processare = []
+o1 = Ordine([], ClienteRecord("Mario Rossi", "mario@polito.it", "Gold"))
+o2 = Ordine([], ClienteRecord("Mario Bianchi", "bianchi@polito.it", "Silver"))
+o3 = Ordine([], ClienteRecord("Fulvio Rossi", "fulvio@polito.it", "Bronze"))
+o4 = Ordine([], ClienteRecord("Carlo Masone", "carlo@polito.it", "Gold"))
+
+ordini_da_processare.append((o1, 0))
+ordini_da_processare.append((o2, 10))
+ordini_da_processare.append((o3, 3))
+ordini_da_processare.append((o4, 45))
+
+"""2) Memorizzare i CF dei clienti (univoco)"""
+# Set
+codici_fiscali = {"jkhferiy93wh","dhksjhkjgdw332","siugaiu37684", "dhksjhkjgdw332"}
+print(codici_fiscali)
+
+"""3) Creare un database di prodotti che posso cercare con un codice univoco"""
+# Dizionario
+listino_prodotti = {"LAP001": ProdottoRecord("Laptop", 1200),
+                    "KEY001": ProdottoRecord("Keyboard", 20.0)}
+
+"""4) Memorizzare le coordinate gps della nuova sede di Roma"""
+# Tupla
+magazzino_roma = (45, 6)
+
+"""5) Tenere traccia delle categorie di clienti che hanno fatto un ordine in un certo range temporale"""
+# Set
+categorie_periodo = set()
+categorie_periodo.add("Gold")
+categorie_periodo.add("Bronze")
+
+print("=====================================================")
+
+#COUNTER
+lista_clienti = [
+    ClienteRecord("Mario Rossi", "mario@polito.it", "Gold"),
+    ClienteRecord("Mario Bianchi", "bianchi@polito.it", "Silver"),
+    ClienteRecord("Fulvio Rossi", "fulvio@polito.it", "Bronze"),
+    ClienteRecord("Carlo Masone", "carlo@polito.it", "Gold"),
+    ClienteRecord("Mario Bianchi", "mario@polito.it", "Gold"),
+    ClienteRecord("Giuseppe Averta", "bianchi@polito.it", "Silver"),
+    ClienteRecord("Francesca Pistilli", "fulvio@polito.it", "Bronze"),
+    ClienteRecord("Carlo Masone", "carlo@polito.it", "Gold"),
+    ClienteRecord("Fulvio Corno", "carlo@polito.it", "Silver")
+]
+
+categorie = [c.categoria for c in lista_clienti]
+categorie_counter = Counter(categorie)
+
+print("Distribuzione categorie clienti")
+print(categorie_counter)
+
+
+
+
+
+
+
+
