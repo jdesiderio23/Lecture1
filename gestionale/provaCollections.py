@@ -69,7 +69,57 @@ def calcola_statistiche_carrello(carrello):
 
 tot, media, max, min = calcola_statistiche_carrello(carrello)
 
-tot, * altri_campi = calcola_statistiche_carrello(carrello)
+# tot, *altri_campi = calcola_statistiche_carrello(carrello)
 print(tot)
 
 #SET
+categorie = {"Gold", "Silver", "Bronze", "Gold"}
+print(categorie)
+print(len(categorie))
+categorie2 = {"Platinum", "Elite", "Gold"}
+# categorie_all = categorie.union(categorie2)
+categorie_all = categorie | categorie2 # unione
+print(categorie_all)
+
+categorie_comuni = categorie & categorie2 # solo elementi comuni
+print(categorie_comuni)
+
+categorie_esclusive = categorie - categorie2 # solo gli elementi presenti in uno dei due set
+print(categorie_esclusive)
+
+categorie_esclusive_symm = categorie ^ categorie2 # differenza simmetrica
+print(categorie_esclusive_symm)
+
+prodotti_ordine_A = {ProdottoRecord("Laptop", 1200),
+                     ProdottoRecord("Mouse", 20.0),
+                     ProdottoRecord("Tablet", 700.0)}
+
+prodotti_ordine_B = {ProdottoRecord("Laptop2", 1200),
+                     ProdottoRecord("Mouse2", 20.0),
+                     ProdottoRecord("Tablet", 700.0)}
+
+#Metodi utili per i set
+s = set()
+s1 = set()
+
+#aggiungere
+s.add(ProdottoRecord("aaa", 20.0)) #aggiunge un elemento
+s.update([ProdottoRecord("aaa", 20.0), ProdottoRecord("bbb", 20.0)]) #aggiunge più elementi
+
+#togliere
+s.remove(elem) #rimuove un elemento. Raise Keyerror se non esiste
+s.discard(elem) #rimuove un elemento, senza "arrabbiarsi" se questo non esiste
+s.pop() #rimuove e restituisce un elemento
+s.clear()
+
+#operazioni insiemistiche
+s.union(s1) # s | s1, ovvero genera un set che unisce i due set di partenza
+s.intersection(s1) # s & s1, ovvero solo elementi comuni
+s.difference(s1) # s-s1, ovvero elementi di s che non sono contenuti in s1
+s.symmetric_difference(s1) # s ^ s1, ovvero elementi di s non contenuti in s1 ed elementi di s1 non contenuti in s
+
+s1.issubset(s) # se gli elementi di s1 sono contenuti in s
+s1.issuperset(s) # se gli elementi di s sono contenuti in s1
+s1.isdisjoint(s) # se gli elementi di s e quelli di s1 sono diversi
+
+#Dictionary
