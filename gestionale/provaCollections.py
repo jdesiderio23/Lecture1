@@ -236,10 +236,38 @@ categorie_counter = Counter(categorie)
 print("Distribuzione categorie clienti")
 print(categorie_counter)
 
+print("2 Categoria più frequenti")
+print(categorie_counter.most_common(2))
+
+print("totale:")
+print(categorie_counter.total())
+
+vendite_gennaio = Counter(
+    {"Laptop": 13, "Tablet": 15}
+)
+
+vendite_febbraio = Counter(
+    {"Laptop": 3, "Stampante": 1}
+)
+
+vendite_bimestre = vendite_gennaio + vendite_febbraio
+
+#Aggregare informazione
+print(f"Vendite Gennaio: {vendite_gennaio}")
+print(f"Vendite Febbraio: {vendite_febbraio}")
+print(f"Vendite bimestre: {vendite_bimestre}")
+
+#Fare la differenza
+print(f"Differenza di vendite: {vendite_gennaio-vendite_febbraio}")
 
 
+#modificare i valori in the fly
 
+vendite_gennaio["Laptop"] += 4
+print(f"Vendite Gennaio: {vendite_gennaio}")
 
+# metodi da ricordare
+c.most_common(n) #restituisce gli n elementi più frequenti
+c.total() #somma dei conteggi
 
-
-
+#defaultdics
