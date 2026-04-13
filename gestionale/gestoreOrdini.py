@@ -29,6 +29,8 @@ class GestoreOrdini:
 
     def processa_prossimo_ordine(self):
         """Questo metodo legge il prossimo ordine in coda e lo gestisce"""
+        print("\n" + "-" * 60)
+        print("\n" + "-" * 60)
 
         #Assicuriamoci che un ordine da processare esista
         if not self._ordini_da_processare:
