@@ -6,7 +6,7 @@ from gestionale.view import View
 
 
 def main(page:ft.Page):
-    v = View()
+    v = View(page)
     c = Controller(v)
     v.set_controller(c)
     v.carica_interfaccia()

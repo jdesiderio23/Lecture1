@@ -1,7 +1,8 @@
 
 class Controller:
-    def __init__(self):
-        self._controller = None
+    def __init__(self, v):
+        self._view = v
+
     def method1(self):
         pass
 
