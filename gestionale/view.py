@@ -18,7 +18,33 @@ class View:
         row1 = ft.Row(controls = [self._txtInNomeP, self._txtInPrezzo, self._txtInQuantita],
                       alignment = ft.MainAxisAlignment.CENTER)
 
-        self._page.add(row1)
+        # Cliente
+        self._txtInNomeC = ft.TextField(label = "Nome Cliente", width = 200)
+        self._txtInMail = ft.TextField(label = "Mail", width = 200)
+        self._txtInCategoria = ft.TextField(label="Categoria", width=200)
+        row2 = ft.Row(controls = [self._txtInNomeC, self._txtInMail, self._txtInCategoria],
+                      alignment = ft.MainAxisAlignment.CENTER)
+
+        # Buttons
+        self._btnAdd = ft.ElevatedButton(text = "Aggiungi ordine",
+                                         on_click = self._controller.add_ordine,
+                                         width = 200)
+        self._btnGestisciOrdine = ft.ElevatedButton(text = "Gestisci il prossimo ordine",
+                                         on_click = self._controller.gestisci_ordine,
+                                         width = 200)
+        self._btnGestisciAllOrdini = ft.ElevatedButton(text = "Gestisci tutti gli ordini",
+                                         on_click = self._controller.gestisci_all_ordini,
+                                         width = 200)
+        self._btnStampaInfo = ft.ElevatedButton(text = "Stampa sommario",
+                                         on_click = self._controller.stampa_sommario,
+                                         width = 200)
+        row3 = ft.Row(controls = [self._btnAdd,
+                                  self._btnGestisciOrdine,
+                                  self._btnGestisciAllOrdini,
+                                  self._btnStampaInfo],
+                      alignment = ft.MainAxisAlignment.CENTER)
+        self._lvOut = ft.ListView(expand = True)
+        self._page.add(row1, row2, row3)
 
     def set_controller(self, c):
         self._controller = c
