@@ -1,7 +1,12 @@
 import flet as ft
+
+from gestionale.gestoreOrdini import GestoreOrdini
+
+
 class Controller:
     def __init__(self, v):
         self._view = v
+        self._model = GestoreOrdini()
 
     def add_ordine(self, e):
         # Prodotto
@@ -25,6 +30,14 @@ class Controller:
             )
             self._view.update_page()
             return
+
+        # Cliente
+        nomeC = self._view._txtInNomeC.value
+        mail = self._view._txtInMail.value
+        categoria = self._view._txtInCategoria.value
+
+        ordine = self._model.crea_ordine(nomePstr, prezzo, quantita,
+                                         nomeC, mail, categoria)
 
     def gestisci_ordine(self, e):
         pass

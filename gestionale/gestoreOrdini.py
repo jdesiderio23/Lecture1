@@ -7,6 +7,7 @@ assicurandomi che sia eseguito solo dopo gli altri.
 3) fornire statistiche sulla distribuzione di ordini per categoria di cliente.
 """
 from collections import deque, defaultdict, Counter
+from idlelib.pyparse import C_STRING_FIRST_LINE
 
 from gestionale.core.clienti import ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
@@ -26,6 +27,11 @@ class GestoreOrdini:
         self._ordini_da_processare.append(ordine)
         print(f"Ricevuto un nuovo ordine da parte di {ordine.cliente}.")
         print(f"Ordini ancora da evadere: {len(self._ordini_da_processare)}")
+
+    def crea_ordine(self, nomeP, prezzoP, quantitaP,
+                    nomeC, mailC, categoriaC):
+        return Ordine([RigaOrdine(ProdottoRecord(nomeP, prezzoP)), quantitaP],
+                      ClienteRecord(nomeC, mailC, categoriaC))
 
     def processa_prossimo_ordine(self):
         """Questo metodo legge il prossimo ordine in coda e lo gestisce"""
