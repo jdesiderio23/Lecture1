@@ -8,7 +8,8 @@ class View:
         self._page.title = "TdP 2025 - Software Gestionale"
         self._page.horizontal_alignment = "CENTER"
         self._page.theme_mode = ft.ThemeMode.LIGHT
-        self._page.update()
+        self._txtInNomeP = None
+        self.update_page()
 
     def carica_interfaccia(self):
         # Prodotto
@@ -44,7 +45,7 @@ class View:
                                   self._btnStampaInfo],
                       alignment = ft.MainAxisAlignment.CENTER)
         self._lvOut = ft.ListView(expand = True)
-        self._page.add(row1, row2, row3)
+        self._page.add(row1, row2, row3, self._lvOut)
 
     def set_controller(self, c):
         self._controller = c

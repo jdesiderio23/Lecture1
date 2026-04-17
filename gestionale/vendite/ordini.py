@@ -28,7 +28,7 @@ class Ordine:
     def riepilogo(self) -> str:
         """Restituisce un riepilogo testuale dell'ordine"""
         linee = [
-            f"Ordine per: {self.cliente.name} ({self.cliente.email}",
+            f"Ordine per: {self.cliente.name} ({self.cliente.email})",
             f"Categoria cliente: {self.cliente.categoria}",
             "-" * 50
         ]

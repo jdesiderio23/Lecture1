@@ -30,7 +30,7 @@ class GestoreOrdini:
 
     def crea_ordine(self, nomeP, prezzoP, quantitaP,
                     nomeC, mailC, categoriaC):
-        return Ordine([RigaOrdine(ProdottoRecord(nomeP, prezzoP)), quantitaP],
+        return Ordine([RigaOrdine(ProdottoRecord(nomeP, prezzoP), quantitaP)],
                       ClienteRecord(nomeC, mailC, categoriaC))
 
     def processa_prossimo_ordine(self):
