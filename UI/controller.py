@@ -11,6 +11,15 @@ class Controller:
     def add_ordine(self, e):
         # Prodotto
         nomePstr = self._view._txtInNomeP.value
+
+        if nomePstr == "":
+            self._view._lvOut.controls.append(
+                ft.Text("Attenzione, il campo 'nome prodotto' non può essere vuoto.",
+                        color = "red")
+            )
+            self._view.update_page()
+            return
+
         try:
             prezzo = float(self._view._txtInPrezzo.value)
         except ValueError:
@@ -33,8 +42,34 @@ class Controller:
 
         # Cliente
         nomeC = self._view._txtInNomeC.value
+
+        if nomeC == "":
+            self._view._lvOut.controls.append(
+                ft.Text("Attenzione, il campo 'nome cliente' non può essere vuoto.",
+                        color="red")
+            )
+            self._view.update_page()
+            return
+
         mail = self._view._txtInMail.value
+
+        if mail == "":
+            self._view._lvOut.controls.append(
+                ft.Text("Attenzione, il campo 'mail' non può essere vuoto.",
+                        color="red")
+            )
+            self._view.update_page()
+            return
+
         categoria = self._view._txtInCategoria.value
+
+        if categoria == "":
+            self._view._lvOut.controls.append(
+                ft.Text("Attenzione, il campo 'categoria' non può essere vuoto.",
+                        color="red")
+            )
+            self._view.update_page()
+            return
 
         ordine = self._model.crea_ordine(nomePstr, prezzo, quantita,
                                          nomeC, mail, categoria)
@@ -48,7 +83,7 @@ class Controller:
         self._view._txtInCategoria.value = ""
 
         self._view._lvOut.controls.append(
-            ft.Text("Ordine correttamente inserito",
+            ft.Text("Ordine correttamente inserito.",
                     color = "green")
         )
         self._view._lvOut.controls.append(
@@ -60,7 +95,23 @@ class Controller:
         self._view.update_page()
 
     def gestisci_ordine(self, e):
-        pass
+        self._view._lvOut.controls.clear()
+        res, ordine = self._model.processa_prossimo_ordine()
+
+        if res:
+            self._view._lvOut.controls.append(
+                ft.Text("Ordine processato con successo.", color = "green")
+            )
+            self._view._lvOut.controls.append(
+                ft.Text(ordine.riepilogo())
+            )
+            self._view.update_page()
+        else:
+            self._view._lvOut.controls.append(
+                ft.Text("Non ci sono ordini in coda.", color = "blue")
+            )
+            self._view.update_page()
+
 
     def gestisci_all_ordini(self, e):
         pass

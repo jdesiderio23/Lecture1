@@ -41,7 +41,7 @@ class GestoreOrdini:
         #Assicuriamoci che un ordine da processare esista
         if not self._ordini_da_processare:
             print("Non ci sono ordini in coda.")
-            return False
+            return False, Ordine([], ClienteRecord("","",""))
 
         #Se esiste, gestiamo il primo in coda.
         ordine = self._ordini_da_processare.popleft() # Logica FIFO
@@ -64,7 +64,7 @@ class GestoreOrdini:
 
         print("Ordine correttamente processato.")
 
-        return True
+        return True, ordine
 
     def processa_tutti_ordini(self):
         """Processa tutti gli ordini attualmente presenti in coda."""
