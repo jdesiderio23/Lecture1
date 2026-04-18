@@ -90,8 +90,8 @@ class Controller:
             ft.Text("Dettagli dell'ordine:")
         )
         self._view._lvOut.controls.append(
-            ft.Text(ordine.riepilogo())
-        )
+            ft.Text(ordine.riepilogo()))
+        self._view._lvOut.controls.append(ft.Text("\n"))
         self._view.update_page()
 
     def gestisci_ordine(self, e):
@@ -114,8 +114,32 @@ class Controller:
 
 
     def gestisci_all_ordini(self, e):
-        pass
+        self._view._lvOut.controls.clear()
+        ordini = self._model.processa_tutti_ordini()
+
+        if not ordini:
+            self._view._lvOut.controls.append(
+                ft.Text("Non ci sono ordini in coda", color = "blue"))
+            self._view.update_page()
+        else:
+            self._view._lvOut.controls.append(
+                ft.Text("\n"))
+            self._view._lvOut.controls.append(
+                ft.Text(f"Ho processato correttamente {len(ordini)} ordini.",
+                        color = "green")
+            )
+            for o in ordini:
+                self._view._lvOut.controls.append(
+                    ft.Text("\n"))
+                self._view._lvOut.controls.append(ft.Text(o.riepilogo()))
+                self._view.update_page()
 
     def stampa_sommario(self, e):
-        pass
+        self._view._lvOut.controls.clear()
+        self._view._lvOut.controls.append(
+            ft.Text("Di seguito il sommario dello stato del business:",
+                    color = "orange"))
+        self._view._lvOut.controls.append(
+            ft.Text(self._model.get_riepilogo()))
+        self._view.update_page()
 

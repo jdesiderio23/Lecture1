@@ -70,9 +70,14 @@ class GestoreOrdini:
         """Processa tutti gli ordini attualmente presenti in coda."""
         print("\n" + "=" * 60)
         print(f"Processando {len(self._ordini_da_processare)} ordini")
+
+        ordini = []
+
         while self._ordini_da_processare:
-            self.processa_prossimo_ordine()
+            _, ordine = self.processa_prossimo_ordine()
+            ordini.append(ordine)
         print("Tutti gli ordini sono stati processati.")
+        return ordini
 
     def get_statistiche_prodotti(self, top_n: int = 5):
         """Questo metodo restituisce info sui prodotti più venduti"""
@@ -104,6 +109,23 @@ class GestoreOrdini:
         print(f"Fatturato per categoria:")
         for cat, fatturato in self.get_distribuzione_categorie():
             print(f"{cat}: {fatturato}")
+
+    def get_riepilogo(self):
+        """Restituisce una stringa con le info di massima"""
+        sommario = ""
+        sommario += "\n" + "=" * 60
+        sommario += f"\n Ordini correttamente gestiti: {len(self._ordini_processati)}"
+        sommario += f"\n Ordini in coda: {len(self._ordini_da_processare)}"
+
+        sommario += "\n Prodotti più venduti:"
+        for prod, quantità in self.get_statistiche_prodotti():
+            sommario += f"\n {prod}: {quantità}"
+
+        sommario += f"\n Fatturato per categoria:"
+        for cat, fatturato in self.get_distribuzione_categorie():
+            sommario += f"\n {cat}: {fatturato}"
+        sommario += "\n" + "=" * 60
+        return sommario
 
 def test_modulo():
     sistema = GestoreOrdini()
