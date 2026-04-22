@@ -9,8 +9,9 @@ assicurandomi che sia eseguito solo dopo gli altri.
 from collections import deque, defaultdict, Counter
 from idlelib.pyparse import C_STRING_FIRST_LINE
 
-from gestionale.core.clienti import ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from dao.dao import DAO
+from gestionale.core.cliente import ClienteRecord
+from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 
@@ -21,6 +22,14 @@ class GestoreOrdini:
         self._ordini_processati = []
         self._statistiche_prodotti = Counter()
         self._ordini_per_categoria = defaultdict(list)
+        self._dao = DAO()
+        self._allP = []
+        self._allC = []
+
+    def _fill_data(self):
+        # Leggo prodotti e clienti dal db, e poi creo degli ordini randomici per testare la mia app.
+        self._allP = self._dao.getAllProdotti()
+        self._allC = self._dao.getAllClienti()
 
     def add_ordine(self, ordine: Ordine):
         """Aggiunge un nuovo ordine agli elementi da gestire"""
