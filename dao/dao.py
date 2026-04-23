@@ -1,5 +1,6 @@
 import mysql.connector
 
+from dao.dbConnect import DBConnect
 from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
 
@@ -7,12 +8,13 @@ from gestionale.core.prodotto import ProdottoRecord
 class DAO:
 
     def getAllProdotti(self):
-        cnx = mysql.connector.connect(
-            user = "root",
-            password = "password",
-            host = "127.0.0.1",
-            database = "sw_gestionale"
-        )
+        # cnx = mysql.connector.connect(
+        #     user = "root",
+        #     password = "password",
+        #     host = "127.0.0.1",
+        #     database = "sw_gestionale"
+        # )
+        cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary=True)
         cursor.execute("SELECT * FROM prodotti")
@@ -27,12 +29,13 @@ class DAO:
         return res
 
     def getAllClienti(self):
-        cnx = mysql.connector.connect(
-            user="root",
-            password="password",
-            host="127.0.0.1",
-            database="sw_gestionale"
-        )
+        # cnx = mysql.connector.connect(
+        #     user = "root",
+        #     password = "password",
+        #     host = "127.0.0.1",
+        #     database = "sw_gestionale"
+        # )
+        cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary=True)
         cursor.execute("SELECT * FROM clienti")
@@ -45,6 +48,82 @@ class DAO:
         cursor.close()
         cnx.close()
         return res
+
+    def addProdotto(self, prodotto):
+        # cnx = mysql.connector.connect(
+        #     user = "root",
+        #     password = "password",
+        #     host = "127.0.0.1",
+        #     database = "sw_gestionale"
+        # )
+        cnx = DBConnect.getConnection()
+
+        cursor = cnx.cursor()
+        query = """insert into prodotti 
+                    (nome, prezzo) values (%s, %s)"""
+        cursor.execute(query, (prodotto.name, prodotto.prezzo_unitario))
+
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        return
+
+    def addCliente(self, cliente):
+        # cnx = mysql.connector.connect(
+        #     user = "root",
+        #     password = "password",
+        #     host = "127.0.0.1",
+        #     database = "sw_gestionale"
+        # )
+        cnx = DBConnect.getConnection()
+
+        cursor = cnx.cursor()
+        query = """insert into clienti 
+                    (nome, mail, categoria) 
+                    values (%s, %s, %s)"""
+        cursor.execute(query, (cliente.name, cliente.email, cliente.categoria))
+
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        return
+
+    def hasCliente(self, cliente):
+        # cnx = mysql.connector.connect(
+        #     user = "root",
+        #     password = "password",
+        #     host = "127.0.0.1",
+        #     database = "sw_gestionale"
+        # )
+        cnx = DBConnect.getConnection()
+
+        cursor = cnx.cursor(dictionary=True)
+        query = """select * from clienti where mail = %s"""
+        cursor.execute(query, (cliente.email,))
+        row = cursor.fetchall()
+
+        cursor.close()
+        cnx.close()
+        return len(row) > 0
+
+    def hasProdotto(self, prod):
+        # cnx = mysql.connector.connect(
+        #     user = "root",
+        #     password = "password",
+        #     host = "127.0.0.1",
+        #     database = "sw_gestionale"
+        # )
+        cnx = DBConnect.getConnection()
+
+        cursor = cnx.cursor(dictionary=True)
+        query = """select * from prodotti where nome = %s"""
+        cursor.execute(query, (prod.name,))
+        row = cursor.fetchall()
+
+        cursor.close()
+        cnx.close()
+        return len(row) > 0
+
 
 if __name__ == "__main__":
     mydao = DAO()
